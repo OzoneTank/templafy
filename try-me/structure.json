@@ -1,0 +1,27 @@
+{
+  "src": {
+    "actions": {
+      "add.js": {
+        "template": "try-me/templates/fooBarJs",
+        "foo": "add",
+        "bar": "a, b",
+        "baz": "return a + b;"
+      },
+      "subtract.js": {
+        "template": "try-me/templates/fooBarJs",
+        "foo": "subtract",
+        "bar": "a, b",
+        "baz": "return a - b;"
+      }
+    },
+    "assets": {},
+    "components": {},
+    "constants": {},
+    "containers": {},
+    "reducers": {},
+    "routes": {},
+    "selectors": {},
+    "services": {},
+    "utils": {}
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "simple-template-tool",
+  "version": "1.0.0",
+  "description": "cli for generating code from templates",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "OzoneTank",
+  "license": "ISC",
+  "bin": {
+    "snippet": "./index.js"
+  },
+  "dependencies": {
+    "lodash": "^4.17.5"
+  }
+}
