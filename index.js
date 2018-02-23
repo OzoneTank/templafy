@@ -23,4 +23,3 @@ if (badCommands.length) {
 }
 
 generateCode(commands);
-

@@ -2,13 +2,13 @@
   "src": {
     "actions": {
       "add.js": {
-        "template": "try-me/templates/fooBarJs",
+        "template": ":fooBarJs",
         "foo": "add",
         "bar": "a, b",
         "baz": "return a + b;"
       },
       "subtract.js": {
-        "template": "try-me/templates/fooBarJs",
+        "template": ":fooBarJs",
         "foo": "subtract",
         "bar": "a, b",
         "baz": "return a - b;"

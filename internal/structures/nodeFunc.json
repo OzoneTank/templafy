@@ -1,0 +1,6 @@
+{
+  "isJSONFile.js" : {
+    "template": ":nodeFunc_js",
+    "name": "isJSONFile"
+  }
+}

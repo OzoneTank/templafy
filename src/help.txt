@@ -5,9 +5,14 @@ Options:
   -h, --help
   -p, --print                print
   -t, --template             forces template mode even if json file
+  -l, --list=[path]          list existing templates
 
 Options in json mode:
   -i, --interactive          prompts input from user
 
 Options in template mode:
   --vars=vars                vars to use for template
+
+
+template:[path]              choose from existing templates
+

@@ -1,9 +1,7 @@
-const buildFolderStructure = require('./buildFolderStructure');
-const buildFromTemplate = require('./buildFromTemplate');
+const buildFolderStructure = require('./constructor/buildFolderStructure');
+const buildFromTemplate = require('./constructor/buildFromTemplate');
 
-function isJSON(str) {
-  return str.match(/(.json)$/) !== null;
-}
+const isJSONFile = require('./utils/isJSONFile');
 
 function generateCode(commands) {
   const structure = commands.args[0];
@@ -13,7 +11,7 @@ function generateCode(commands) {
     forceTemplate
   } = commands;
 
-  if (forceTemplate || !isJSON(structure)) {
+  if (forceTemplate || !isJSONFile(structure)) {
     buildFromTemplate({
       commands,
       path,

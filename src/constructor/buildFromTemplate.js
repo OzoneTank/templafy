@@ -1,14 +1,20 @@
-#!/usr/bin/env node
-
 const fs = require('fs');
 const _ = require('lodash');
 
+const convertPath = require('../utils/convertPath');
+
 function buildFromTemplate({ template, path, vars, commands }) {
+  template = convertPath({
+    path: template,
+    isTemplate: true
+  });
+
   const {
     varLeft,
     varRight,
     verbose
   } = commands;
+
   fs.readFile(template, 'utf8', (err, data) => {
     _.map(vars, (value, key) => {
       if (key !== 'template') {
