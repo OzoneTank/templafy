@@ -3,33 +3,36 @@ const _ = require('lodash');
 
 const convertPath = require('../utils/convertPath');
 
-function buildFromTemplate({ template, path, vars, commands }) {
+function buildFromTemplate({ template, path, vars, options }) {
   template = convertPath({
     path: template,
     isTemplate: true
   });
 
+  fs.readFile(template, 'utf8', (err, data) => {
+    replaceVars({ path, vars, data, options });
+  });
+}
+
+function replaceVars({ path, vars, data, options }) {
   const {
     varLeft,
     varRight,
     verbose
-  } = commands;
+  } = options;
+  _.map(vars, (value, key) => {
+    if (key !== 'template') {
+      data = replaceVar(data, `${varLeft}${key}${varRight}`, value);
+    }
+  });
 
-  fs.readFile(template, 'utf8', (err, data) => {
-    _.map(vars, (value, key) => {
-      if (key !== 'template') {
-        data = replaceVar(data, `${varLeft}${key}${varRight}`, value);
-      }
-    });
-
-    fs.writeFile(path, data, (err) => {
-      if (err) {
-        throw err;
-      }
-      if (verbose) {
-        console.log(`${path} saved`);
-      }
-    });
+  fs.writeFile(path, data, (err) => {
+    if (err) {
+      throw err;
+    }
+    if (verbose) {
+      console.log(`${path} saved`);
+    }
   });
 }
 

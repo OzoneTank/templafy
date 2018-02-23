@@ -1,9 +1,9 @@
 const startAtIndex = 2; // will be 1 eventually I think
 
-const setCommands = (args) => {
-  const commands = {
+const setOptions = (args) => {
+  const options = {
     args: [],
-    badCommands: [],
+    badOptions: [],
     forceTemplate: false,
     help: false,
     interactive: false,
@@ -15,7 +15,7 @@ const setCommands = (args) => {
   };
 
   if (args.length <= startAtIndex) {
-    commands.help = true;
+    options.help = true;
   }
 
   args.forEach(function (arg, i) {
@@ -23,44 +23,44 @@ const setCommands = (args) => {
       return;
     }
     const split = arg.split('=')
-    const command = split[0];
+    const option = split[0];
     const value = split.slice(1).join('=');
 
-    switch (command) {
+    switch (option) {
       case '-o':
       case '--overwrite':
-        commands.overwrite = true;
+        options.overwrite = true;
         return;
       case '-h':
       case '--help':
-        commands.help = true;
+        options.help = true;
         return;
       case '-p':
       case '-print':
-        commands.verbose = true;
+        options.verbose = true;
         return;
       case '-t':
       case '-template':
-        commands.forceTemplate = true;
+        options.forceTemplate = true;
         return;
       case '-i':
       case '--interactive':
-        commands.interactive = true;
+        options.interactive = true;
         return;
       case '--vars':
-        commands.templateVars = JSON.parse(value);
+        options.templateVars = JSON.parse(value);
         return;
       default:
-        if (command.indexOf('-') === 0) {
-          commands.badCommands.push(command);
+        if (option.indexOf('-') === 0) {
+          options.badOptions.push(option);
           return;
         }
-        commands.args.push(command);
+        options.args.push(option);
         return;
     }
   });
 
-  return commands;
+  return options;
 };
 
-module.exports = setCommands;
+module.exports = setOptions;

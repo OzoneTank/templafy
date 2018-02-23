@@ -4,10 +4,10 @@ const _ = require('lodash');
 const buildFromTemplate = require('./buildFromTemplate');
 const convertPath = require('../utils/convertPath');
 
-function buildFolderStructure({path, structure, commands}) {
-  const {
+function buildFolderStructure({path, structure, options}) {
+  const{
     verbose
-  } = commands;
+  } = options;
 
   if (typeof structure === 'string') {
     structure = convertPath({
@@ -29,16 +29,16 @@ function buildFolderStructure({path, structure, commands}) {
     _.map(structure, (data, name) => {
       if (name.indexOf('.') === -1) {
         buildFolderStructure({
+          options,
           path: `${path}/${name}`,
-          structure: data,
-          commands
+          structure: data
         });
       } else {
         buildFromTemplate({
-          template: data.template,
-          vars: data,
+          options,
           path: `${path}/${name}`,
-          commands
+          template: data.template,
+          vars: data
         });
       }
     });

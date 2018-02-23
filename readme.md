@@ -2,5 +2,5 @@
 npm install
 
 ## Run
-node index [commands]
+node index [options]
 

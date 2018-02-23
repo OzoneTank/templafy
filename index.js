@@ -1,25 +1,26 @@
 #!/usr/bin/env node
-const setCommands = require('./src/setCommands');
+const setOptions = require('./src/setOptions');
+// const listInternal = require('./src/listInternal');
 const printHelp = require('./src/printHelp');
 const generateCode = require('./src/generateCode');
 
 const args = process.argv;
-const commands = setCommands(process.argv);
+const options = setOptions(process.argv);
 const {
-  badCommands,
+  badOptions,
   help
-} = commands;
+} = options;
 
 if (help) {
   printHelp();
   return;
 }
 
-if (badCommands.length) {
-  badCommands.forEach((command) => {
-    console.log(`bad option: ${command}`);
+if (badOptions.length) {
+  badOptions.forEach((option) => {
+    console.log(`bad option: ${option}`);
   });
   return;
 }
 
-generateCode(commands);
+generateCode(options);

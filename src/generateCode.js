@@ -3,24 +3,24 @@ const buildFromTemplate = require('./constructor/buildFromTemplate');
 
 const isJSONFile = require('./utils/isJSONFile');
 
-function generateCode(commands) {
-  const structure = commands.args[0];
-  const path = commands.args[1] || '.';
+function generateCode(options) {
+  const structure = options.args[0];
+  const path = options.args[1] || '.';
 
   const {
     forceTemplate
-  } = commands;
+  } = options;
 
   if (forceTemplate || !isJSONFile(structure)) {
     buildFromTemplate({
-      commands,
+      options,
       path,
       template: structure,
-      vars: commands.templateVars
+      vars: options.templateVars
     });
   } else {
     buildFolderStructure({
-      commands,
+      options,
       path,
       structure
     });
