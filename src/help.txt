@@ -1,9 +1,4 @@
 
-  Usage: snippet [options] <file>
-
-  Options:
-
-
   Usage: templafy <options> [template | json] [path]
 
   Options:
