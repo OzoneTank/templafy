@@ -8,7 +8,9 @@ const args = process.argv;
 const options = setOptions(process.argv);
 const {
   badOptions,
-  help
+  help,
+  listTemplates,
+  listStructures
 } = options;
 
 if (help) {

@@ -12,6 +12,7 @@ function generateCode(options) {
   } = options;
 
   if (forceTemplate || !isJSONFile(structure)) {
+    options.interactive = true;
     buildFromTemplate({
       options,
       path,

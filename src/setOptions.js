@@ -7,6 +7,8 @@ const setOptions = (args) => {
     forceTemplate: false,
     help: false,
     interactive: false,
+    listTemplates: false,
+    listStructures: false,
     overwrite: false,
     templateInfo: {},
     varLeft: '/*{',
@@ -34,6 +36,14 @@ const setOptions = (args) => {
       case '-h':
       case '--help':
         options.help = true;
+        return;
+      case '-l':
+      case '--list':
+      case '--list-templates':
+        options.listTemplates = true;
+        return;
+      case '--list-structures':
+        options.listStructures = true;
         return;
       case '-p':
       case '-print':
