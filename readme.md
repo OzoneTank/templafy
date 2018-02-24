@@ -1,6 +1,43 @@
-## Setup
-npm install
+Templafy
+========
 
-## Run
-node index [options]
+## Install
 
+    npm install -g templafy
+
+## Usage
+
+    Usage: templafy <options> [template | json] [path]
+
+    Options:
+      -o, --overwrite              overwrite previously existing files
+      -h, --help
+      -p, --print                  print
+      -t, --template               forces template mode even if json file
+
+    Options in json mode:
+      -i, --interactive            prompts input from user
+
+    Options in template mode:
+    --vars=vars                  info to use for template
+
+## Examples
+
+  make a template: message_js
+  
+    console.log('/*{message}*/');
+    
+  run:
+  
+    >templafy message_js helloWorld.js
+    helloWorld.js message: hello world
+    >templafy message_js templafyRules.js
+    templafyRules.js message: templafy rules!
+    
+  result: ./helloWorld.js
+  
+    console.log('hello world');
+    
+  result: ./templafyRules.js
+  
+    console.log('templafy rules!');
