@@ -19,7 +19,7 @@ Templafy
       -i, --interactive            prompts input from user
 
     Options in template mode:
-    --vars=vars                  info to use for template
+      --vars=vars                  info to use for template
 
 ## Examples
 
