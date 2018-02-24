@@ -23,6 +23,8 @@ Templafy
 
 ## Examples
 
+### Template Example
+
   make a template: message_js
   
     console.log('/*{message}*/');
@@ -41,3 +43,30 @@ Templafy
   result: ./templafyRules.js
   
     console.log('templafy rules!');
+    
+### Structure.json Example
+    
+  make a structure: test.json
+  
+    {
+      "src": {
+        "foo.js" {
+          "template": message_js,
+          "message": "foo"
+        },
+        "bar.js" {
+          "template": message_js,
+          "message": "bar"
+        }
+      }
+    }
+    
+  run:
+    
+    >templafy test.json build
+  
+  generates:
+  
+    src/
+      foo.js
+      bar.js
