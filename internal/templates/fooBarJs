@@ -1,3 +1,5 @@
+// /*{notes}*/
+
 function /*{foo}*/(/*{bar}*/) {
   /*{baz}*/
 }

@@ -16,7 +16,7 @@ function generateCode(options) {
       options,
       path,
       template: structure,
-      vars: options.templateVars
+      info: options.templateInfo
     });
   } else {
     buildFolderStructure({

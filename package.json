@@ -12,6 +12,7 @@
     "snippet": "./index.js"
   },
   "dependencies": {
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "readline-sync": "^1.4.9"
   }
 }

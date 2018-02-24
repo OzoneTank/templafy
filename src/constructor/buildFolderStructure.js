@@ -1,11 +1,13 @@
 const fs = require('fs');
 const _ = require('lodash');
+const readlineSync = require('readline-sync');
 
 const buildFromTemplate = require('./buildFromTemplate');
 const convertPath = require('../utils/convertPath');
 
 function buildFolderStructure({path, structure, options}) {
   const{
+    interactive,
     verbose
   } = options;
 
@@ -28,6 +30,9 @@ function buildFolderStructure({path, structure, options}) {
 
     _.map(structure, (data, name) => {
       if (name.indexOf('.') === -1) {
+        if (interactive) {
+          name = readlineSync.question(`${path}/(${name})`).trim() || name;
+        }
         buildFolderStructure({
           options,
           path: `${path}/${name}`,
@@ -38,7 +43,7 @@ function buildFolderStructure({path, structure, options}) {
           options,
           path: `${path}/${name}`,
           template: data.template,
-          vars: data
+          info: data
         });
       }
     });
