@@ -10,7 +10,6 @@ Templafy
     Usage: templafy <options> [template | json] [path]
 
     Options:
-      -o, --overwrite              overwrite previously existing files
       -h, --help
       -p, --print                  print
       -t, --template               forces template mode even if json file
@@ -26,47 +25,48 @@ Templafy
 ### Template Example
 
   make a template: message_js
-  
+
     console.log('/*{message}*/');
-    
+
   run:
-  
+
     >templafy message_js helloWorld.js
     helloWorld.js message: hello world
     >templafy message_js templafyRules.js
     templafyRules.js message: templafy rules!
-    
+
   result: ./helloWorld.js
-  
+
     console.log('hello world');
-    
+
   result: ./templafyRules.js
-  
+
     console.log('templafy rules!');
-    
+
 ### Structure.json Example
-    
+
   make a structure: test.json
-  
+
     {
       "src": {
         "foo.js" {
-          "template": message_js,
+          "template": "message_js",
           "message": "foo"
         },
         "bar.js" {
-          "template": message_js,
+          "template": "message_js",
           "message": "bar"
         }
       }
     }
-    
+
   run:
-    
+
     >templafy test.json build
-  
+
   generates:
-  
-    src/
-      foo.js
-      bar.js
+
+    build/
+      src/
+        foo.js
+        bar.js

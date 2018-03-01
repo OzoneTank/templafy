@@ -2,7 +2,6 @@
   Usage: templafy <options> [template | json] [path]
 
   Options:
-    -o, --overwrite              overwrite previously existing files
     -h, --help
     -p, --print                  print
     -t, --template               forces template mode even if json file

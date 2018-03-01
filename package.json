@@ -1,6 +1,6 @@
 {
   "name": "templafy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "cli for generating code from templates",
   "main": "index.js",
   "scripts": {
