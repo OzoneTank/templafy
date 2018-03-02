@@ -7,13 +7,13 @@ const setOptions = (args) => {
     forceTemplate: false,
     help: false,
     interactive: false,
+    mode: undefined,
     listTemplates: false,
     listStructures: false,
-    overwrite: false,
     templateInfo: {},
-    varLeft: '/*{',
-    varRight: '}*/',
-    verbose: false
+    leftVar: '/*{',
+    rightVar: '}*/',
+    verbose: false,
   };
 
   if (args.length <= startAtIndex) {
@@ -29,13 +29,13 @@ const setOptions = (args) => {
     const value = split.slice(1).join('=');
 
     switch (option) {
-      case '-o':
-      case '--overwrite':
-        options.overwrite = true;
-        return;
       case '-h':
       case '--help':
         options.help = true;
+        return;
+      case '-m':
+      case '--mode':
+        options.mode = value;
         return;
       case '-l':
       case '--list':
@@ -45,9 +45,15 @@ const setOptions = (args) => {
       case '--list-structures':
         options.listStructures = true;
         return;
+      case '--leftVar':
+        options.leftVar = value;
+        return;
       case '-p':
       case '-print':
         options.verbose = true;
+        return;
+      case '--rightVar':
+        options.rightVar = value;
         return;
       case '-t':
       case '-template':
