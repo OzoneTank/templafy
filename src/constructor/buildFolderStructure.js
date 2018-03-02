@@ -4,6 +4,7 @@ const readlineSync = require('readline-sync');
 
 const buildFromTemplate = require('./buildFromTemplate');
 const convertPath = require('../utils/convertPath');
+const writeToConsole = require('../utils/writeToConsole');
 
 function buildFolderStructure({path, structure, options}) {
   const{
@@ -19,34 +20,36 @@ function buildFolderStructure({path, structure, options}) {
     structure = JSON.parse(fs.readFileSync(structure, 'utf8'));
   }
 
-  fs.mkdir(path, function (err) {
+  try {
+    fs.mkdirSync(path);
+  } catch (err) {
     if (err && err.code === 'EEXIST') {
       if (verbose) {
-        console.log(`path already exists: ${path}`);
+        writeToConsole(`path already exists: ${path}`);
       }
     } else if (err) {
       throw err;
     }
+  }
 
-    _.map(structure, (data, name) => {
-      if (name.indexOf('.') === -1) {
-        if (interactive) {
-          name = readlineSync.question(`${path}/(${name})`).trim() || name;
-        }
-        buildFolderStructure({
-          options,
-          path: `${path}/${name}`,
-          structure: data
-        });
-      } else {
-        buildFromTemplate({
-          options,
-          path: `${path}/${name}`,
-          template: data.template,
-          info: data
-        });
+  _.map(structure, (data, name) => {
+    if (name.indexOf('.') === -1) {
+      if (interactive) {
+        name = readlineSync.question(`${path}/(${name})`).trim() || name;
       }
-    });
+      buildFolderStructure({
+        options,
+        path: `${path}/${name}`,
+        structure: data
+      });
+    } else {
+      buildFromTemplate({
+        options,
+        path: `${path}/${name}`,
+        template: data.template,
+        info: data
+      });
+    }
   });
 }
 

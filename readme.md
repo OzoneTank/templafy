@@ -36,22 +36,31 @@ Templafy
 
   make a template: message_js
 
-    console.log('/*{message}*/');
+    function /*{name}*/() {
+      console.log('/*{message}*/');
+    }
 
   run:
 
     >templafy message_js helloWorld.js
+    helloWorld.js name: helloWorld
     helloWorld.js message: hello world
     >templafy message_js templafyRules.js
+    templafyRules.js name: templafyRules
     templafyRules.js message: templafy rules!
 
   result: ./helloWorld.js
 
-    console.log('hello world');
+    function helloWorld() {
+      console.log('hello world');
+    }
+
 
   result: ./templafyRules.js
 
-    console.log('templafy rules!');
+    function templafyRules() {
+      console.log('templafy rules!');
+    }
 
 ### Structure.json Example
 
@@ -61,10 +70,12 @@ Templafy
       "src": {
         "foo.js" {
           "template": "message_js",
+          "name": "sayFoo",
           "message": "foo"
         },
         "bar.js" {
           "template": "message_js",
+          "name": "sayBar",
           "message": "bar"
         }
       }
