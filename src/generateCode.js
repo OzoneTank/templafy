@@ -16,8 +16,10 @@ function generateCode(options) {
     buildFromTemplate({
       options,
       path,
-      template: structure,
-      info: options.templateInfo
+      structure: {
+        template: structure,
+        info: options.templateInfo
+      }
     });
   } else {
     buildFolderStructure({

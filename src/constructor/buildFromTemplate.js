@@ -6,27 +6,37 @@ const convertPath = require('../utils/convertPath');
 const findVarsInStr = require('../utils/findVarsInStr');
 const writeToConsole = require('../utils/writeToConsole');
 
-function buildFromTemplate({ template, path, info, options }) {
-  if (template === undefined) {
-    if (info === undefined) {
-      return;
-    }
-    buildFromTemplate({
-      template: info,
-      path,
-      info: {},
-      options
-    });
+function buildFromTemplate({ options, path, structure }) {
+  // if (template === undefined) {
+  //   if (info === undefined) {
+  //     return;
+  //   }
+  //   buildFromTemplate({
+  //     template: info,
+  //     path,
+  //     info: {},
+  //     options
+  //   });
+  //   return;
+  // }
+
+  if (Array.isArray(structure)) {
+    arrayOfTemplates({ options, path, structure });
     return;
   }
 
-  if (Array.isArray(template)) {
-    arrayOfTemplates({ template, path, info, options });
-    return;
-  }
+  // if (template.template) {
+  //   buildFromTemplate({
+  //     template: template.template,
+  //     path,
+  //     info: template,
+  //     options
+  //   });
+  //   return;
+  // }
 
-  template = convertPath({
-    path: template,
+  const template = convertPath({
+    path: structure.template || structure,
     isTemplate: true
   });
 
@@ -47,6 +57,7 @@ function buildFromTemplate({ template, path, info, options }) {
     }
   }
 
+  const { info } = structure;
   const mode = info.mode || options.mode;
 
   switch (mode) {
@@ -98,21 +109,22 @@ function buildFromTemplate({ template, path, info, options }) {
   replaceVars({ path, info, data, options });
 }
 
-function arrayOfTemplates({ template, path, info, options }) {
-  template.forEach((currTemplate, i) => {
-    const newInfo = Object.assign({}, info);
+function arrayOfTemplates({ options, path, structure }) {
+  structure.forEach((currStructure, i) => {
+    const info = Object.assign({}, currStructure.info);
     if (i > 0) {
-      if (newInfo.mode === 'replace' || newInfo.mode === undefined) {
-        newInfo.mode = 'append';
+      if (info.mode === 'replace' || info.mode === undefined) {
+        info.mode = 'append';
+      }
+    }
+    if (typeof currStructure === 'string') {
+      currStructure = {
+        template: currStructure,
+        info
       }
     }
 
-    buildFromTemplate({
-      template: currTemplate,
-      path,
-      info: newInfo,
-      options
-    })
+    buildFromTemplate({ options, path, structure })
   });
 }
 
