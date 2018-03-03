@@ -6,7 +6,6 @@ const isJSONFile = require('./utils/isJSONFile');
 function generateCode(options) {
   const structure = options.args[0];
   const path = options.args[1] || '.';
-
   const {
     forceTemplate
   } = options;

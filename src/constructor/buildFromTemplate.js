@@ -7,39 +7,26 @@ const findVarsInStr = require('../utils/findVarsInStr');
 const writeToConsole = require('../utils/writeToConsole');
 
 function buildFromTemplate({ options, path, structure }) {
-  // if (template === undefined) {
-  //   if (info === undefined) {
-  //     return;
-  //   }
-  //   buildFromTemplate({
-  //     template: info,
-  //     path,
-  //     info: {},
-  //     options
-  //   });
-  //   return;
-  // }
-
   if (Array.isArray(structure)) {
     arrayOfTemplates({ options, path, structure });
     return;
   }
 
-  // if (template.template) {
-  //   buildFromTemplate({
-  //     template: template.template,
-  //     path,
-  //     info: template,
-  //     options
-  //   });
-  //   return;
-  // }
+  if (typeof structure === 'string') {
+    buildFromTemplate({
+      options,
+      path,
+      structure: {
+        template: structure
+      }
+    });
+    return;
+  }
 
   const template = convertPath({
-    path: structure.template || structure,
+    path: structure.template,
     isTemplate: true
   });
-
   let data;
   let oldData;
 
@@ -57,8 +44,7 @@ function buildFromTemplate({ options, path, structure }) {
     }
   }
 
-  const { info } = structure;
-  const mode = info.mode || options.mode;
+  const mode = structure.mode || options.mode;
 
   switch (mode) {
     case 'prepend':
@@ -106,41 +92,43 @@ function buildFromTemplate({ options, path, structure }) {
       break;
   }
 
-  replaceVars({ path, info, data, options });
+  replaceVars({ path, structure, data, options });
 }
 
 function arrayOfTemplates({ options, path, structure }) {
   structure.forEach((currStructure, i) => {
-    const info = Object.assign({}, currStructure.info);
-    if (i > 0) {
-      if (info.mode === 'replace' || info.mode === undefined) {
-        info.mode = 'append';
-      }
-    }
+    let newStructure;
     if (typeof currStructure === 'string') {
-      currStructure = {
-        template: currStructure,
-        info
+      newStructure = {
+        template: currStructure
       }
+    } else {
+      newStructure = Object.assign({}, currStructure);
     }
 
-    buildFromTemplate({ options, path, structure })
+    if ((i > 0 && newStructure.mode === 'replace') || newStructure.mode === undefined) {
+      newStructure.mode = 'append';
+    }
+
+    buildFromTemplate({ options, path, structure: newStructure })
   });
 }
 
-function replaceVars({ path, info, data, options }) {
+function replaceVars({ path, structure, data, options }) {
   const {
-    interactive,
     leftVar,
     rightVar,
     verbose
   } = options;
+  const interactive = structure.interactive !== undefined
+    ? structure.interactive
+    : options.interactive;
 
   foundVars = findVarsInStr(data, options.leftVar, options.rightVar);
 
   foundVars.forEach((key) => {
-    let value = info[key] || '';
-    if (interactive) {
+    let value = structure[key] || '';
+    if (interactive || value === '') {
       const question = `${path} ${key}: ` + ((value) ? ` (${value})` : '');
       value = readlineSync.question(question) || value;
     }

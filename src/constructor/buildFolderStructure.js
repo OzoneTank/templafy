@@ -46,8 +46,7 @@ function buildFolderStructure({path, structure, options}) {
       buildFromTemplate({
         options,
         path: `${path}/${name}`,
-        template: data.template,
-        info: data
+        structure: data
       });
     }
   });
