@@ -16,6 +16,12 @@ describe('addTabSpace', function() {
     expect(expectedData).to.eq(resultData);
   });
 
+  it('should skip first line', function () {
+    const expectedData = 'aaa\n   bbb\n    ccc';
+    const resultData = addTabSpace({ data, spaces, skipFirstLine: true });
+    expect(expectedData).to.eq(resultData);
+  });
+
   context('does not add space to data', function () {
     it('when 0', function () {
       spaces = 0;

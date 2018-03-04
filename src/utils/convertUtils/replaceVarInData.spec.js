@@ -52,4 +52,11 @@ describe('replaceVarInData', function() {
     const expectedData = 'aaa\nbbb\nccc';
     expect(resultData).to.eq(expectedData);
   });
+
+  it('should add additional space for tabbed vars', function() {
+    data = 'aaa\n  /*{foo}*/bbb\nccc';
+    const expectedData = 'aaa\n  foo\n  barbbb\nccc';
+    const resultData = replaceVarInData({ data, value, varName });
+    expect(resultData).to.eq(expectedData);
+  });
 });

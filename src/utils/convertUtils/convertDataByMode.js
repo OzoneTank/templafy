@@ -4,7 +4,6 @@ const getOptions = require('../getOptions');
 
 const lineRegex = /\[(\d+)(?::(\d+))?\]/;
 
-
 function convertDataByMode({ oldData, data, mode, structure, options }) {
   const {
     leftVar,
