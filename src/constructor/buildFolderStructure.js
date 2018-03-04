@@ -3,7 +3,7 @@ const _ = require('lodash');
 const readlineSync = require('readline-sync');
 
 const buildFromTemplate = require('./buildFromTemplate');
-const convertPath = require('../utils/convertPath');
+const convertPath = require('../utils/convertUtils/convertPath');
 const writeToConsole = require('../utils/writeToConsole');
 
 function buildFolderStructure({path, structure, options}) {

@@ -1,10 +1,12 @@
-const fs = require('fs');
 const _ = require('lodash');
 const readlineSync = require('readline-sync');
 
-const convertPath = require('../utils/convertPath');
+const convertPath = require('../utils/convertUtils/convertPath');
 const findVarsInStr = require('../utils/findVarsInStr');
-const writeToConsole = require('../utils/writeToConsole');
+const getFileData = require('../utils/fileUtils/getFileData');
+const writeFileData = require('../utils/fileUtils/writeFileData');
+const convertDataByMode = require('../utils/convertUtils/convertDataByMode');
+const replaceVarInData = require('../utils/convertUtils/replaceVarInData');
 
 function buildFromTemplate({ options, path, structure }) {
   if (Array.isArray(structure)) {
@@ -27,70 +29,12 @@ function buildFromTemplate({ options, path, structure }) {
     path: structure.template,
     isTemplate: true
   });
-  let data;
-  let oldData;
-
-  try {
-    data = fs.readFileSync(template, 'utf8');
-  } catch (err) {
-    throw err;
-  }
-
-  try {
-    oldData = fs.readFileSync(path, 'utf8');
-  } catch (err) {
-    if (err && err.code !== 'ENOENT') {
-      throw err;
-    }
-  }
+  let data = getFileData({ path: template });
+  let oldData = getFileData({ path });
 
   const mode = structure.mode || options.mode;
 
-  switch (mode) {
-    case 'prepend':
-      data = data + '\n' + (oldData || '');
-      break;
-
-    case 'append':
-      data = (oldData || '') + '\n' + data;
-      break;
-
-    case 'replace':
-      break;
-
-    case undefined:
-    case 'noreplace':
-      if (oldData) {
-        data = oldData;
-      }
-      break;
-
-    default:
-      //find the number in the value ex [123] is line 123
-      const line = (mode.match(/\[(\d+)\]/) || [])[1];
-
-      if (line === undefined) {
-        data = oldData;
-      } else {
-        let index = 0;
-        oldData = oldData || '';
-
-        for (let i = 0; i < (line - 1) && index >= 0; i++) {
-          index = oldData.indexOf('\n', index + 1);
-        }
-
-        if (index < 0) {
-          index = oldData.length;
-        }
-
-        data = oldData.substr(0, index) +
-          (index ? '\n' : '') +
-          data +
-          (index ? '' : '\n') +
-          oldData.substr(index);
-      }
-      break;
-  }
+  data = convertDataByMode({ oldData, data, mode });
 
   replaceVars({ path, structure, data, options });
 }
@@ -133,26 +77,11 @@ function replaceVars({ path, structure, data, options }) {
       value = readlineSync.question(question) || value;
     }
 
-    data = replaceVar(data, `${leftVar}${key}${rightVar}`, value);
+    const oldVar = `${leftVar}${key}${rightVar}`
+    data = replaceVarInData({ data,oldVar,value });
   });
 
-  try{
-    fs.writeFileSync(path, data);
-  } catch(err) {
-    if (err) {
-      throw err;
-    }
-    if (verbose) {
-      writeToConsole(`${path} saved`);
-    }
-  }
-}
-
-function replaceVar(string, orig, value) {
-  while (string.indexOf(orig) !== -1) {
-    string = string.replace(orig, value);
-  }
-  return string;
+  writeFileData({ path, data, verbose });
 }
 
 module.exports = buildFromTemplate;
