@@ -5,12 +5,13 @@ const readlineSync = require('readline-sync');
 const buildFromTemplate = require('./buildFromTemplate');
 const convertPath = require('../utils/convertUtils/convertPath');
 const writeToConsole = require('../utils/writeToConsole');
+const getOptions = require('../utils/getOptions');
 
 function buildFolderStructure({path, structure, options}) {
   const{
     interactive,
     verbose
-  } = options;
+  } = getOptions({ structure, options });
 
   if (typeof structure === 'string') {
     structure = convertPath({
