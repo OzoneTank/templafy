@@ -1,3 +1,4 @@
+const colors = require('colors');
 const setOptions = require('./setOptions');
 // const listInternal = require('./src/listInternal');
 const printHelp = require('./printHelp');
@@ -20,7 +21,7 @@ function runFromCommandLine(args) {
 
   if (badOptions.length) {
     badOptions.forEach((option) => {
-      writeToConsole(`bad option: ${option}`);
+      writeToConsole(`bad option: ${option}`.red);
     });
     return;
   }

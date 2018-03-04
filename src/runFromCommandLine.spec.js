@@ -1,4 +1,5 @@
 const expect = require('chai').expect;
+const colors = require('colors');
 const mock = require('mock-require');
 const mockData = require('./test/mockData');
 
@@ -72,8 +73,8 @@ describe('runFromCommandLine', function() {
 
       runFromCommandLine(args);
       expect(mockData.called(writeToConsole, 2)).to.be.true;
-      expect(mockData.get(writeToConsole).first[0]).to.eq('bad option: foo');
-      expect(mockData.get(writeToConsole).second[0]).to.eq('bad option: bar');
+      expect(mockData.get(writeToConsole).first[0]).to.eq('bad option: foo'.red);
+      expect(mockData.get(writeToConsole).second[0]).to.eq('bad option: bar'.red);
 
       expect(mockData.called(generateCode)).to.be.false;
     });

@@ -18,7 +18,7 @@ function replaceVars({ path, structure, data, options }) {
   foundVars.forEach((key) => {
     let value = structure[key] || '';
     if (interactive || value === '') {
-      const question = `${path} ${key}: ` + ((value) ? ` (${value})` : '');
+      const question = `${path} ${key.magenta}:` + ((value) ? ` (${value.blue}) ` : ' ');
       value = readlineSync.question(question) || value;
     }
 

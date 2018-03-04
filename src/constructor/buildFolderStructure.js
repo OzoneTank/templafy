@@ -6,6 +6,7 @@ const buildFromTemplate = require('./buildFromTemplate');
 const convertPath = require('../utils/convertUtils/convertPath');
 const writeToConsole = require('../utils/writeToConsole');
 const getOptions = require('../utils/getOptions');
+const interactiveFileName = require('../utils/convertUtils/interactiveFileName');
 
 function buildFolderStructure({path, structure, options}) {
   const{
@@ -21,14 +22,18 @@ function buildFolderStructure({path, structure, options}) {
     structure = JSON.parse(fs.readFileSync(structure, 'utf8'));
   }
 
+  if (verbose && fs.existsSync(path)) {
+    writeToConsole(`path exists: ${path}`.yellow);
+  }
+
+  if (interactive) {
+    path = interactiveFileName({ path });
+  }
+
   try {
     fs.mkdirSync(path);
   } catch (err) {
-    if (err && err.code === 'EEXIST') {
-      if (verbose) {
-        writeToConsole(`path already exists: ${path}`);
-      }
-    } else if (err) {
+    if (err && err.code !== 'EEXIST') {
       throw err;
     }
   }
@@ -36,7 +41,7 @@ function buildFolderStructure({path, structure, options}) {
   _.map(structure, (data, name) => {
     if (name.indexOf('.') === -1) {
       if (interactive) {
-        name = readlineSync.question(`${path}/(${name})`).trim() || name;
+        name = readlineSync.question(`${path}/(${name.blue}): `).trim() || name;
       }
       buildFolderStructure({
         options,

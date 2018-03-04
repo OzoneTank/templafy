@@ -1,4 +1,5 @@
 const expect = require('chai').expect;
+const colors = require('colors');
 const mock = require('mock-require');
 const mockData = require('../../test/mockData');
 
@@ -37,8 +38,8 @@ describe('interactiveFileName', function() {
   });
 
   it('should get expected path', function() {
-    const result = interactiveFileName(path);
-    const expectedQuestion = 'path/(name.js): ';
+    const result = interactiveFileName({ path });
+    const expectedQuestion = 'path/(' + 'name.js'.blue + '): ';
     expect(result).to.eq('path/name2.js');
     expect(mockData.called(extractNameFromPath)).to.be.true;
     expect(mockData.get(extractNameFromPath).first[0]).to.eq(path);

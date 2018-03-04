@@ -1,5 +1,3 @@
-const readlineSync = require('readline-sync');
-
 const buildFromTemplateArray = require('./buildFromTemplateArray');
 const convertDataByMode = require('../utils/convertUtils/convertDataByMode');
 const convertPath = require('../utils/convertUtils/convertPath');
@@ -7,6 +5,7 @@ const replaceVars = require('../utils/convertUtils/replaceVars');
 const getFileData = require('../utils/fileUtils/getFileData');
 const getOptions = require('../utils/getOptions');
 const extractNameFromPath = require('../utils/extractNameFromPath');
+const interactiveFileName = require('../utils/convertUtils/interactiveFileName');
 
 function buildFromTemplate({ options, path, structure }) {
   if (Array.isArray(structure)) {
@@ -32,20 +31,16 @@ function buildFromTemplate({ options, path, structure }) {
 
   const {
     interactive,
-    mode
+    mode,
+    verbose
   } = getOptions({ structure, options });
 
   if (interactive) {
-    const result = extractNameFromPath(path);
-    let name = result.name;
-    let newPath = result.path || '.';
-    const question = `${newPath}/(${name}): `;
-    name = readlineSync.question(question).trim() || name;
-    path = `${newPath}/${name}`;
+    path = interactiveFileName({ path });
   }
 
-  let data = getFileData({ path: template });
-  let oldData = getFileData({ path });
+  let data = getFileData({ path: template, verbose, oldPathName: structure.template });
+  let oldData = getFileData({ path, verbose, oldPathName: path });
 
   data = convertDataByMode({ oldData, data, mode, structure, options });
 
