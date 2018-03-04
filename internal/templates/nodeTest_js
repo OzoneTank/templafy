@@ -1,0 +1,9 @@
+const expect = require('chai').expect;
+const /*{name}*/ = require('.//*{name}*/');
+
+describe('/*{name}*/', function() {
+  it('should', function() {
+    /*{name}*/();
+    expect(true).to.be.true;
+  })
+});

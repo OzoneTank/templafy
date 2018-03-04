@@ -1,7 +1,7 @@
 const fs = require('fs');
 const writeToConsole = require('../writeToConsole');
 
-function writeFileData({path, data, verbose}) {
+function writeFileData({ path, data, verbose }) {
   try {
     fs.writeFileSync(path, data);
   } catch (err) {

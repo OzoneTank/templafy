@@ -1,6 +1,5 @@
 const buildFolderStructure = require('./constructor/buildFolderStructure');
 const buildFromTemplate = require('./constructor/buildFromTemplate');
-
 const isJSONFile = require('./utils/isJSONFile');
 
 function generateCode(options) {
