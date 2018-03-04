@@ -2,6 +2,9 @@ const addDataAtLine = require('./addDataAtLine');
 const replaceVarInData = require('./replaceVarInData');
 const getOptions = require('../getOptions');
 
+const lineRegex = /\[(\d+)(?::(\d+))?\]/;
+
+
 function convertDataByMode({ oldData, data, mode, structure, options }) {
   const {
     leftVar,
@@ -16,7 +19,7 @@ function convertDataByMode({ oldData, data, mode, structure, options }) {
       return (oldData || '') + '\n' + data;
 
     case 'replace':
-      break;
+      return data;
 
     case undefined:
     case 'noreplace':
@@ -24,10 +27,12 @@ function convertDataByMode({ oldData, data, mode, structure, options }) {
 
     default:
       //find the number in the value ex [123] is line 123
-      const line = parseInt((mode.match(/\[(\d+)\]/) || [])[1], 10);
+      let [, line, spaces] = (mode.match(lineRegex) || []);
 
-      if (line !== NaN) {
-        return addDataAtLine({ line, oldData, data })
+      if (line !== undefined) {
+        line = parseInt(line, 10);
+        spaces = parseInt(spaces, 10) || 0;
+        return addDataAtLine({ line, spaces, oldData, data })
       }
 
       //find the var name in the value ex {abc} is /*{abc}*/
@@ -40,11 +45,9 @@ function convertDataByMode({ oldData, data, mode, structure, options }) {
           value: data
         });
       }
-
-      return oldData;
   }
 
-  return data;
+  return oldData;
 }
 
 module.exports = convertDataByMode;

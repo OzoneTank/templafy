@@ -6,7 +6,7 @@ const setOptions = (args) => {
     badOptions: [],
     forceTemplate: false,
     help: false,
-    interactive: false,
+    interactive: undefined,
     mode: undefined,
     listTemplates: false,
     listStructures: false,

@@ -1,4 +1,6 @@
-function addDataAtLine({ line, data = '', oldData = '' }) {
+const addTabSpace = require('./addTabSpace');
+
+function addDataAtLine({ line, spaces = 0, data = '', oldData = '' }) {
   if (data === '') {
     return oldData;
   }
@@ -6,6 +8,8 @@ function addDataAtLine({ line, data = '', oldData = '' }) {
   if (oldData === '') {
     return data;
   }
+
+  data = addTabSpace({ data, spaces });
 
   let index = 0;
 

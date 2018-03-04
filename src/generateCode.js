@@ -10,14 +10,12 @@ function generateCode(options) {
   } = options;
 
   if (forceTemplate || !isJSONFile(structure)) {
-    options.interactive = true;
     buildFromTemplate({
       options,
       path,
-      structure: {
-        template: structure,
-        info: options.templateInfo
-      }
+      structure: Object.assign({
+        template: structure
+      }, options.templateInfo)
     });
   } else {
     buildFolderStructure({
