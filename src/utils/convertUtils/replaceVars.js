@@ -22,8 +22,8 @@ function replaceVars({ path, structure, data, options }) {
       value = readlineSync.question(question) || value;
     }
 
-    const oldVar = `${leftVar}${key}${rightVar}`
-    data = replaceVarInData({ data, oldVar, value });
+    const varName = `${leftVar}${key}${rightVar}`;
+    data = replaceVarInData({ data, varName, value });
   });
 
   writeFileData({ path, data, verbose });

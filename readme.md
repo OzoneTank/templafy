@@ -26,6 +26,7 @@ Templafy
                  prepend           adds data to beginning of file
                  append            adds data to file
                  [#]               inserts at line
+                 {#}               inserts at variable name
       --leftVar=leftVar            looks for match /*{ by default
       --rightVar=rightVar          looks for match }*/ by default
 

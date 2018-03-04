@@ -24,8 +24,8 @@ const setOptions = (args) => {
     if (i < startAtIndex) {
       return;
     }
-    const split = arg.split('=')
-    const option = split[0];
+    const split = arg.split('=');
+    let option = split[0];
     const value = split.slice(1).join('=');
 
     switch (option) {
@@ -70,6 +70,9 @@ const setOptions = (args) => {
         if (option.indexOf('-') === 0) {
           options.badOptions.push(option);
           return;
+        }
+        if (option.endsWith('/')) {
+          option = option.slice(0, -1);
         }
         options.args.push(option);
         return;

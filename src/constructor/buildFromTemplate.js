@@ -47,7 +47,7 @@ function buildFromTemplate({ options, path, structure }) {
   let data = getFileData({ path: template });
   let oldData = getFileData({ path });
 
-  data = convertDataByMode({ oldData, data, mode });
+  data = convertDataByMode({ oldData, data, mode, structure, options });
 
   replaceVars({ path, structure, data, options });
 }

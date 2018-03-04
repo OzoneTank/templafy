@@ -1,4 +1,4 @@
-const internalPath = process.argv[1].replace(/index$/, 'internal/');
+const internalPath = require('../getInternalPath')();
 const templatePath = 'templates/';
 const structurePath = 'structures/';
 

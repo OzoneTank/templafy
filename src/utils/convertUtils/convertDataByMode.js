@@ -1,4 +1,12 @@
-function convertDataByMode({ oldData, data, mode }) {
+const addDataAtLine = require('./addDataAtLine');
+const replaceVarInData = require('./replaceVarInData');
+
+function convertDataByMode({ oldData, data, mode, structure, options }) {
+  const {
+    leftVar,
+    rightVar
+  } = getOptions({ structure, options });
+
   switch (mode) {
     case 'prepend':
       return data + '\n' + (oldData || '');
@@ -15,28 +23,24 @@ function convertDataByMode({ oldData, data, mode }) {
 
     default:
       //find the number in the value ex [123] is line 123
-      const line = (mode.match(/\[(\d+)\]/) || [])[1];
+      const line = parseInt((mode.match(/\[(\d+)\]/) || [])[1], 10);
 
-      if (line === undefined) {
-        return oldData;
+      if (line !== NaN) {
+        return addDataAtLine({ line, oldData, data })
       }
 
-      let index = 0;
-      oldData = oldData || '';
+      //find the var name in the value ex {abc} is /*{abc}*/
+      const varName = (mode.match(/\{(.+)\}/) || [])[1];
 
-      for (let i = 0; i < (line - 1) && index >= 0; i++) {
-        index = oldData.indexOf('\n', index + 1);
+      if (varName !== undefined) {
+        return replaceVarInData({
+          data: oldData,
+          varName: `${leftVar}${varName}${rightVar}`,
+          value: data
+        });
       }
 
-      if (index < 0) {
-        index = oldData.length;
-      }
-
-      return oldData.substr(0, index) +
-        (index ? '\n' : '') +
-        data +
-        (index ? '' : '\n') +
-        oldData.substr(index);
+      return oldData;
   }
 
   return data;
