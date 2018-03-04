@@ -1,5 +1,6 @@
 const addDataAtLine = require('./addDataAtLine');
 const replaceVarInData = require('./replaceVarInData');
+const getOptions = require('../getOptions');
 
 function convertDataByMode({ oldData, data, mode, structure, options }) {
   const {
