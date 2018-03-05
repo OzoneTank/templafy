@@ -6,7 +6,7 @@ const helpText = require('./constants/help.txt');
 const writeToConsole = require('./utils/writeToConsole');
 
 const printHelp = () => {
-  writeToConsole(helpText);
+  writeToConsole(helpText.cyan);
 };
 
 module.exports = printHelp;

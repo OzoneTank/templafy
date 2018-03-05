@@ -18,7 +18,7 @@ describe('printHelp', function() {
 
   it('will load and print help text', function () {
     expect(mockData.called(writeToConsole)).to.be.true;
-    expect(mockData.get(writeToConsole).first[0]).to.eq('help\ntest\n');
+    expect(mockData.get(writeToConsole).first[0]).to.eq('help\ntest\n'.cyan);
   });
 
   afterEach(function () {

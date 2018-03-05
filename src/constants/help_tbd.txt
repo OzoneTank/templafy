@@ -1,10 +1,14 @@
-
   Usage: templafy <options> [template | json] [path]
 
   Options:
     -h, --help
     -p, --print                  print
     -t, --template               forces template mode even if json file
+    -l, --list,
+    --list-templates=
+      [path|:internalTemplate]   list existing templates
+    --list-structures=
+      [path|:internalStructure]  list existing structures
 
   Options in json mode:
     -i, --interactive            prompts input from user

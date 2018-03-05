@@ -20,12 +20,13 @@ Templafy
     Options in template mode:
       --vars=vars                  info to use for template
 
-    Options in vars:
+    Options: (also in vars)
       -m, --mode=noreplace         (default) writes file if none exists
                  replace           replaces file
                  prepend           adds data to beginning of file
                  append            adds data to file
                  [#]               inserts at line
+                 [#:#]             inserts at line and column
                  {#}               inserts at variable name
       --leftVar=leftVar            looks for match /*{ by default
       --rightVar=rightVar          looks for match }*/ by default
