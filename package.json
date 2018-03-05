@@ -7,7 +7,7 @@
     "test": "mocha 'src/**/*.spec.*'"
   },
   "author": "OzoneTank",
-  "license": "ISC",
+  "license": "MIT",
   "bin": {
     "templafy": "./index.js"
   },
