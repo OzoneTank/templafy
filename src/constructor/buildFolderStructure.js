@@ -22,7 +22,9 @@ function buildFolderStructure({path, structure, options}) {
     structure = JSON.parse(fs.readFileSync(structure, 'utf8'));
   }
 
-  if (verbose && fs.existsSync(path)) {
+  const fileExists = fs.existsSync(path);
+
+  if (verbose && fileExists) {
     writeToConsole(`path exists: ${path}`.yellow);
   }
 
@@ -32,6 +34,9 @@ function buildFolderStructure({path, structure, options}) {
 
   try {
     fs.mkdirSync(path);
+    if (verbose && !fileExists) {
+      writeToConsole(`path created: ${path}`.green);
+    }
   } catch (err) {
     if (err && err.code !== 'EEXIST') {
       throw err;
@@ -40,9 +45,6 @@ function buildFolderStructure({path, structure, options}) {
 
   _.map(structure, (data, name) => {
     if (name.indexOf('.') === -1) {
-      if (interactive) {
-        name = readlineSync.question(`${path}/(${name.blue}): `).trim() || name;
-      }
       buildFolderStructure({
         options,
         path: `${path}/${name}`,

@@ -1,3 +1,5 @@
+const fs = require('fs');
+const readlineSync = require('readline-sync');
 const buildFromTemplateArray = require('./buildFromTemplateArray');
 const convertDataByMode = require('../utils/convertUtils/convertDataByMode');
 const convertPath = require('../utils/convertUtils/convertPath');
@@ -6,6 +8,7 @@ const getFileData = require('../utils/fileUtils/getFileData');
 const getOptions = require('../utils/getOptions');
 const extractNameFromPath = require('../utils/extractNameFromPath');
 const interactiveFileName = require('../utils/convertUtils/interactiveFileName');
+const writeToConsole = require('../utils/writeToConsole');
 
 function buildFromTemplate({ options, path, structure }) {
   if (Array.isArray(structure)) {
@@ -24,11 +27,7 @@ function buildFromTemplate({ options, path, structure }) {
     return;
   }
 
-  const template = convertPath({
-    path: structure.template,
-    isTemplate: true
-  });
-
+  let templatePath = structure.template;
   const {
     interactive,
     mode,
@@ -37,10 +36,21 @@ function buildFromTemplate({ options, path, structure }) {
 
   if (interactive) {
     path = interactiveFileName({ path });
+    templatePath = readlineSync.question('template'.magenta + `: (${templatePath.blue}): `).trim() || templatePath;
   }
 
-  let data = getFileData({ path: template, verbose, oldPathName: structure.template });
-  let oldData = getFileData({ path, verbose, oldPathName: path });
+  const template = convertPath({
+    path: templatePath,
+    isTemplate: true
+  });
+
+  if (!fs.existsSync(template)) {
+    writeToConsole(`${templatePath} does not exist, skipping`.yellow.bgRed);
+    return;
+  }
+
+  let data = getFileData({ path: template });
+  let oldData = getFileData({ path, verbose, oldPathName: path, mode });
 
   data = convertDataByMode({ oldData, data, mode, structure, options });
 
