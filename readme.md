@@ -31,6 +31,7 @@ Templafy
       --leftVar=leftVar            looks for match /*{ by default
       --rightVar=rightVar          looks for match }*/ by default
 
+  \* more features on the way
 
 ## Examples
 
@@ -93,3 +94,8 @@ Templafy
       src/
         foo.js
         bar.js
+
+### Run tests
+
+    npm test
+  \* more tests coming
